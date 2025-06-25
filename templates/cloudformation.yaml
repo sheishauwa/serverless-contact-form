@@ -10,7 +10,6 @@ Parameters:
     Type: String
     Description: "S3 key (object path) for the Lambda code"
 
-
 Resources:
 
   ContactTable:
@@ -92,4 +91,3 @@ Resources:
       FunctionName: !Ref SubmitMessageFunction
       Action: lambda:InvokeFunction
       Principal: apigateway.amazonaws.com
-
