@@ -1,31 +1,60 @@
-# Serverless Contact Form
+# 🌿 Serverless Contact Form for GreenNest Farms
 
-A fully serverless contact form app using AWS Lambda, API Gateway, and DynamoDB.
+This project implements a fully serverless contact form using AWS Lambda, API Gateway, DynamoDB, and optional SNS email alerts. The form is hosted on S3 and deployable with Infrastructure as Code (IaC).
 
-## 🧱 Architecture
-- API Gateway for POST request
-- Lambda to handle logic
-- DynamoDB for storage
-- Optional: SNS for notifications
-- IaC with CloudFormation
+---
 
-## 🚀 Deployment
-1. Upload `lambda.zip` to S3
-2. Deploy `cloudformation.yaml`
-3. Update frontend with API URL
+## 🌐 Use Case
+
+GreenNest Farms needed a lightweight, scalable way for customers to send inquiries through their website—without using third-party tools like Google Forms.
+
+---
+
+## 📦 Tech Stack
+
+| Layer        | Service        |
+|--------------|----------------|
+| Frontend     | HTML, CSS, JS (Hosted on S3) |
+| API          | Amazon API Gateway |
+| Logic        | AWS Lambda (Node.js) |
+| Database     | Amazon DynamoDB |
+| Notification | Amazon SNS (optional) |
+| IaC          | AWS CloudFormation |
+| CI/CD        | GitHub Actions (optional) |
+
+---
 
 ## 📁 Folder Structure
+
 /serverless-contact-form
-│
-├── frontend/
-│   └── index.html
-├── lambda/
-│   └── submitMessage.js
-├── diagrams/
-│   └── contact-app.drawio
-├── templates/
-│   └── cloudformation.yaml
-├── README.md
-└── .github/
-    └── workflows/
-        └── deploy.yml
+├── frontend/ # Static HTML form
+├── lambda/ # Lambda function code
+├── diagrams/ # Architecture diagram (drawio + PNG)
+├── templates/ # CloudFormation YAML
+├── .github/workflows/ # GitHub Actions CI/CD
+└── README.md
+
+
+---
+
+## 📤 Features
+
+- Accepts **name**, **email**, and **message**
+- Validates inputs on server
+- Saves message to **DynamoDB**
+- Sends **SNS email notification**
+- Hosted via **S3 static hosting**
+- Fully reproducible with CloudFormation
+
+---
+
+## 🚀 Deployment Guide
+
+### ✅ 1. Deploy CloudFormation Stack
+Upload your `lambda.zip` to S3 and deploy the `cloudformation.yaml` using AWS Console or CLI.
+
+```bash
+aws cloudformation deploy \
+  --template-file templates/cloudformation.yaml \
+  --stack-name contact-form-stack \
+  --capabilities CAPABILITY_NAMED_IAM
