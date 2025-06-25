@@ -5,13 +5,11 @@ Parameters:
   CodeS3Bucket:
     Type: String
     Description: "S3 bucket where the Lambda code is stored"
-
   CodeS3Key:
     Type: String
     Description: "S3 key (object path) for the Lambda code"
 
 Resources:
-
   ContactTable:
     Type: AWS::DynamoDB::Table
     Properties:
