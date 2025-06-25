@@ -7,26 +7,44 @@ on:
 
 jobs:
   deploy:
+    name: Upload & Deploy Lambda
     runs-on: ubuntu-latest
 
+    env:
+      AWS_REGION: us-east-1
+      FUNCTION_NAME: ContactFormHandler
+      S3_BUCKET: your-lambda-code-bucket
+      S3_KEY: lambda.zip
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v2
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-north-1
+          node-version: '18'
 
-      - name: Upload Lambda code to S3
+      - name: Zip Lambda Function
         run: |
-          aws s3 cp lambda/submitMessage.js s3://hauwa-contactform-code/submitMessage.js
+          cd lambda
+          zip -r ../lambda.zip .
 
-      - name: Deploy CloudFormation Stack
+      - name: Upload Lambda to S3
         run: |
-          aws cloudformation deploy \
-            --template-file templates/cloudformation.yaml \
-            --stack-name contact-form-app \
-            --parameter-overrides CodeS3Bucket=hauwa-contactform-code CodeS3Key=submitMessage.js \
-            --capabilities CAPABILITY_NAMED_IAM
+          aws s3 cp lambda.zip s3://$S3_BUCKET/$S3_KEY
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AKIAQLVQRA2HX2I5MLEV }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.qmSxZNQOwheSwXJjjtYPa6MvgJvryhXu/Qxt/k4S }}
+          AWS_DEFAULT_REGION: ${{ env.eu-north-1 }}
+
+      - name: Update Lambda Code
+        run: |
+          aws lambda update-function-code \
+            --function-name $FUNCTION_NAME \
+            --s3-bucket $S3_BUCKET \
+            --s3-key $S3_KEY
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AKIAQLVQRA2HX2I5MLEV }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.qmSxZNQOwheSwXJjjtYPa6MvgJvryhXu/Qxt/k4S}}
+          AWS_DEFAULT_REGION: ${{ env.eu-north-1 }}
