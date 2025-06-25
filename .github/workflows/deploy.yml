@@ -21,12 +21,12 @@ jobs:
 
       - name: Upload Lambda code to S3
         run: |
-          aws s3 cp lambda/submitMessage.js s3://serverless-project-s3/submitMessage.js
+          aws s3 cp lambda/submitMessage.js s3://hauwa-contactform-code/submitMessage.js
 
       - name: Deploy CloudFormation Stack
         run: |
           aws cloudformation deploy \
             --template-file templates/cloudformation.yaml \
             --stack-name contact-form-app \
-            --parameter-overrides CodeS3Bucket=serverless-project-s3 CodeS3Key=submitMessage.js \
+            --parameter-overrides CodeS3Bucket=hauwa-contactform-code CodeS3Key=submitMessage.js \
             --capabilities CAPABILITY_NAMED_IAM
