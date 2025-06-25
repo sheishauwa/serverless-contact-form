@@ -1,6 +1,16 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Serverless Contact Form with API Gateway, Lambda, and DynamoDB
 
+Parameters:
+  CodeS3Bucket:
+    Type: String
+    Description: "S3 bucket where the Lambda code is stored"
+
+  CodeS3Key:
+    Type: String
+    Description: "S3 key (object path) for the Lambda code"
+
+
 Resources:
 
   ContactTable:
