@@ -1,0 +1,32 @@
+name: Deploy Lambda to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Upload Lambda code to S3
+        run: |
+          aws s3 cp lambda/submitMessage.js s3://your-bucket-name/submitMessage.js
+
+      - name: Deploy CloudFormation Stack
+        run: |
+          aws cloudformation deploy \
+            --template-file templates/cloudformation.yaml \
+            --stack-name contact-form-app \
+            --parameter-overrides CodeS3Bucket=your-bucket-name CodeS3Key=submitMessage.js \
+            --capabilities CAPABILITY_NAMED_IAM
