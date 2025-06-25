@@ -13,7 +13,7 @@ jobs:
     env:
       AWS_REGION: us-east-1
       FUNCTION_NAME: ContactFormHandler
-      S3_BUCKET: your-lambda-code-bucket
+      S3_BUCKET: serverless-project
       S3_KEY: lambda.zip
 
     steps:
