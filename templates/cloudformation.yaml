@@ -8,7 +8,7 @@ Parameters:
   DynamoDBTableName:
     Type: String
     Default: ContactMessages
-  EmailAddress:
+  EmailAddress: hauwa.dbtech@gmail.com
     Type: String
     Default: "you@example.com"  # Optional - for SNS
 
