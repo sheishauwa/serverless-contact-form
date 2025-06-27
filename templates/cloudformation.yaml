@@ -62,7 +62,7 @@ Resources:
       Role: !GetAtt LambdaExecutionRole.Arn
       Timeout: 10
       Code:
-        S3Bucket: infor-bucket-s3
+        S3Bucket: serverless-contact-lambda-code
         S3Key: lambda.zip
       Environment:
         Variables:
