@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      AWS_REGION: us-east-1
+      AWS_REGION: eu-north-1
       FUNCTION_NAME: ContactFormHandler
-      S3_BUCKET: serverless-project
+      S3_BUCKET: serverless-contact-lambda-code
       S3_KEY: lambda.zip
 
     steps:
